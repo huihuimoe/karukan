@@ -15,6 +15,7 @@ mod input_buffer;
 mod mode;
 mod model;
 mod strategy;
+mod transliterate;
 mod types;
 
 pub use types::*;

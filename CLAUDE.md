@@ -141,6 +141,7 @@ cargo clippy --workspace  # Lint all crates
   - `conversion.rs` — Conversion mode handling (mixed candidate list, key handling, commit)
   - `model.rs` — Model dispatch and the cache in front of it (`run_kana_kanji_conversion`, `cached_convert`, `run_parallel_beam`, `model_candidates`)
   - `filter.rs` — Ctrl+R / Ctrl+T source-filtered candidate views (`FILTER_CYCLE`, `source_view`, `apply_candidate_filter`)
+  - `transliterate.rs` — F6–F10: a conversion listing only the composition's transliterations (hiragana, full/half katakana, full/half alphanumeric), no model call. The alphanumerics are the keystrokes as typed (`InputBuffer::keystrokes` — each `Converted` element carries the keys that produced it, a rule's keys held by its first char), and a repeated F9/F10 steps through as typed → lower → UPPER → Capitalized. Kana forms commit as `Fallback` (learned); alphanumerics as `CandidateSource::Transliteration`, which is not learnable, so `kai` never heads later かい conversions
   - `chunk/split.rs` — Where the chunk boundaries fall, engine-free: every char is classified into a `Token`, and `group_chunks` walks them once, packing them into chunks under `ChunkLimits`. Pure functions, unit-tested in place
   - `chunk/mod.rs` — What the engine does with the chunks: `chunked_auto_suggest`, the chunk-grid conversion, and the manual breaks
   - `cache.rs` — LRU conversion cache keyed by the computation: (katakana reading, lctx, model role, beam width)

@@ -1,6 +1,7 @@
 //! Composing input handling (Empty and Composing states)
 
 use super::filter::source_for_key;
+use super::transliterate::Transliteration;
 use super::*;
 
 /// Append candidates to `target`, skipping duplicates by text.
@@ -219,6 +220,12 @@ impl InputMethodEngine {
 
     /// Process key in hiragana input state
     pub(super) fn process_key_composing(&mut self, key: &KeyEvent) -> EngineResult {
+        if let Some(form) = Transliteration::for_key(key)
+            && self.mode.current() != InputMode::Emoji
+        {
+            return self.transliterate(form);
+        }
+
         // Handle Ctrl+key shortcuts
         if key.modifiers.control_key {
             match key.keysym {
